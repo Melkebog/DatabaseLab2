@@ -1,0 +1,22 @@
+
+
+(compass mungo db, auto designates a 12 number _id)
+
+(Collection for users)
+{
+    "username": "user2",
+    "password_hash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+} //password is "password"
+
+(Collection for books)
+{
+    "title": "1984",
+    "isbn": "9780451524935",
+    "genre": { "id": 2, "name": "Dystopian" },
+    "authors": [
+        { "name": "George Orwell", "birthdate": "1903-06-25", "user_id": null }
+    ],
+    "reviews": [],
+    "ratings": [],
+    "user_id": "63b1b2a3c4d5e6f7890abcde"
+}
