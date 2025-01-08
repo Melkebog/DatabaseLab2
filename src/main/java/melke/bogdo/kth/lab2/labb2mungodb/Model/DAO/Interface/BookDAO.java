@@ -6,8 +6,11 @@ import java.util.List;
 
 /**
  * Interface for managing book-related operations in the database.
- * Provides CRUD operations for books and supports management of embedded entities
- * such as authors, reviews, ratings, and genres.
+ * <p>
+ * Provides methods for CRUD operations on books and supports the management
+ * of embedded entities such as authors, reviews, ratings, and genres.
+ * This interface abstracts the database interactions for book-related features.
+ * </p>
  */
 public interface BookDAO {
 
@@ -21,15 +24,6 @@ public interface BookDAO {
     List<Book> getAllBooks();
 
     /**
-     * Retrieves a book by its unique ID.
-     *
-     * @param bookId the unique ID of the book.
-     * @return the {@link Book} object if found, or {@code null} if no book is found with the given ID.
-     * @throws IllegalArgumentException if {@code bookId} is null or empty.
-     */
-    Book getBookById(String bookId);
-
-    /**
      * Adds a new book to the database.
      *
      * @param book the {@link Book} object to add.
@@ -38,16 +32,7 @@ public interface BookDAO {
     void addBook(Book book);
 
     /**
-     * Updates an existing book in the database.
-     *
-     * @param bookId the unique ID of the book to update.
-     * @param book   the updated {@link Book} object.
-     * @throws IllegalArgumentException if {@code bookId} is null or empty, or if {@code book} is null.
-     */
-    void updateBook(String bookId, Book book);
-
-    /**
-     * Deletes a book from the database.
+     * Deletes a book from the database by its unique identifier.
      *
      * @param bookId the unique ID of the book to delete.
      * @throws IllegalArgumentException if {@code bookId} is null or empty.
@@ -57,27 +42,25 @@ public interface BookDAO {
     // Embedded Reviews
 
     /**
-     * Adds a review to a specific book.
+     * Adds or updates a review for a specific book.
+     * <p>
+     * If a review by the same user already exists for the book, it is updated.
+     * Otherwise, a new review is added to the book's reviews.
+     * </p>
      *
      * @param bookId the unique ID of the book.
-     * @param review the {@link Review} object to add.
+     * @param review the {@link Review} object to add or update.
      * @throws IllegalArgumentException if {@code bookId} or {@code review} is null.
      */
     void addReview(String bookId, Review review);
-
-    /**
-     * Retrieves all reviews for a specific book.
-     *
-     * @param bookId the unique ID of the book.
-     * @return a {@link List} of {@link Review} objects associated with the specified book.
-     * @throws IllegalArgumentException if {@code bookId} is null or empty.
-     */
-    List<Review> getReviewsByBookId(String bookId);
 
     // Embedded Ratings
 
     /**
      * Adds a rating to a specific book.
+     * <p>
+     * Ratings can be used to calculate the average score or for other statistical purposes.
+     * </p>
      *
      * @param bookId the unique ID of the book.
      * @param rating the {@link Rating} object to add.
@@ -85,59 +68,15 @@ public interface BookDAO {
      */
     void addRating(String bookId, Rating rating);
 
-    /**
-     * Retrieves all ratings for a specific book.
-     *
-     * @param bookId the unique ID of the book.
-     * @return a {@link List} of {@link Rating} objects associated with the specified book.
-     * @throws IllegalArgumentException if {@code bookId} is null or empty.
-     */
-    List<Rating> getRatingsByBookId(String bookId);
-
-    // Embedded Authors
+    // Embedded Search
 
     /**
-     * Retrieves all authors associated with a specific book.
-     *
-     * @param bookId the unique ID of the book.
-     * @return a {@link List} of {@link Author} objects associated with the specified book.
-     * @throws IllegalArgumentException if {@code bookId} is null or empty.
-     */
-    List<Author> getAuthorsByBookId(String bookId);
-
-    /**
-     * Adds an author to a specific book.
-     *
-     * @param bookId the unique ID of the book.
-     * @param author the {@link Author} object to add.
-     * @throws IllegalArgumentException if {@code bookId} or {@code author} is null.
-     */
-    void addAuthorToBook(String bookId, Author author);
-
-    /**
-     * Checks whether an author exists in a specific book.
-     *
-     * @param bookId    the unique ID of the book.
-     * @param name      the name of the author.
-     * @param birthdate the birthdate of the author (formatted as "YYYY-MM-DD").
-     * @return {@code true} if the author exists in the book, {@code false} otherwise.
-     * @throws IllegalArgumentException if {@code bookId}, {@code name}, or {@code birthdate} is null or empty.
-     */
-    boolean authorExistsInBook(String bookId, String name, String birthdate);
-
-    // Embedded Genres
-
-    /**
-     * Retrieves all genres from the database.
-     *
-     * @return a {@link List} of {@link Genre} objects available in the database.
-     */
-    List<Genre> getAllGenres();
-
-    // Search
-
-    /**
-     * Searches for books based on the specified criteria.
+     * Searches for books in the database based on the specified criteria.
+     * <p>
+     * Supports searching by book title, author name, genre, or other attributes.
+     * The {@code type} parameter specifies the attribute to search by,
+     * and {@code keyword} specifies the search term.
+     * </p>
      *
      * @param type    the type of search (e.g., "Title", "Author", "Genre").
      * @param keyword the search keyword.
@@ -145,13 +84,4 @@ public interface BookDAO {
      * @throws IllegalArgumentException if {@code type} or {@code keyword} is null or empty.
      */
     List<Book> searchBooks(String type, String keyword);
-
-    // Authors Across Books
-
-    /**
-     * Retrieves all authors across all books in the database.
-     *
-     * @return a {@link List} of {@link Author} objects representing all authors.
-     */
-    List<Author> getAllAuthorsFromBooks();
 }

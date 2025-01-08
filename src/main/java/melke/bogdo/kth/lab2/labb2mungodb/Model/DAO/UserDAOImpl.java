@@ -11,6 +11,9 @@ import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
+// user1, password: password
+// user2, password: password
+
 /**
  * Implementation of the {@link UserDAO} interface for managing user-related operations in MongoDB.
  * This class provides methods to retrieve, add, and validate users in the database.
@@ -75,29 +78,6 @@ public class UserDAOImpl implements UserDAO {
             System.err.println("User not found for username: " + username);
             throw new IllegalArgumentException("User not found: " + username);
         }
-    }
-
-    /**
-     * Adds a new user to the database.
-     *
-     * @param user the {@link User} object containing the user's details.
-     * @throws IllegalArgumentException if {@code user} is null or its fields are invalid.
-     */
-    @Override
-    public void addUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null.");
-        }
-        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty.");
-        }
-        if (user.getPasswordHash() == null || user.getPasswordHash().trim().isEmpty()) {
-            throw new IllegalArgumentException("Password hash cannot be null or empty.");
-        }
-
-        Document userDoc = new Document("username", user.getUsername())
-                .append("password_hash", user.getPasswordHash()); // Hash password beforehand
-        usersCollection.insertOne(userDoc);
     }
 
     /**

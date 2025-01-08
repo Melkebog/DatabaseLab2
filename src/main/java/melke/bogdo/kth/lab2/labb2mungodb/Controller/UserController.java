@@ -46,19 +46,4 @@ public class UserController {
         return isValid;
     }
 
-    /**
-     * Logs out the currently logged-in user by clearing the user session.
-     */
-    public void logout() {
-        SessionManager.getInstance().logout();
-    }
-
-    /**
-     * Checks whether a user is currently logged into the system.
-     *
-     * @return {@code true} if a user is logged in; {@code false} otherwise.
-     */
-    public boolean isLoggedIn() {
-        return SessionManager.getInstance().isLoggedIn();
-    }
 }

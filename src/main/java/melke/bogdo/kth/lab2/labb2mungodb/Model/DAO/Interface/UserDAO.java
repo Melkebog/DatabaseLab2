@@ -28,14 +28,6 @@ public interface UserDAO {
     User getUserByUsername(String username);
 
     /**
-     * Adds a new user to the database.
-     *
-     * @param user the {@link User} object containing the user's details.
-     * @throws IllegalArgumentException if {@code user} is null.
-     */
-    void addUser(User user);
-
-    /**
      * Validates a user's credentials using their username and hashed password.
      *
      * @param username     the username of the user.
